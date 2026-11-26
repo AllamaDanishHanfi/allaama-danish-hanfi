@@ -147,6 +147,10 @@
       background: linear-gradient(45deg, #d97706, #db2777, #7c3aed);
     }
 
+    .chip-wa {
+      background: #16a34a;
+    }
+
     .container {
       max-width: 820px;
       margin: 0 auto;
@@ -453,6 +457,7 @@
         <a class="social-chip chip-yt" id="ytLink" href="https://youtube.com" target="_blank" rel="noopener noreferrer">YouTube Channel</a>
         <a class="social-chip chip-fb" id="fbLink" href="https://facebook.com" target="_blank" rel="noopener noreferrer">Facebook Page</a>
         <a class="social-chip chip-ig" id="igLink" href="https://instagram.com" target="_blank" rel="noopener noreferrer">Instagram</a>
+        <a class="social-chip chip-wa" id="waLink" href="https://wa.me/919917420179" target="_blank" rel="noopener noreferrer">WhatsApp</a>
       </div>
     </div>
   </header>
@@ -542,7 +547,8 @@
         introVisible: true,
         youtube: "https://youtube.com",
         facebook: "https://facebook.com",
-        instagram: "https://instagram.com"
+        instagram: "https://instagram.com",
+        whatsapp: "https://wa.me/919917420179"
       },
       links: [],
       mazmoon: [],
@@ -744,6 +750,7 @@
       if (isSafeUrl(s.youtube)) document.getElementById("ytLink").href = s.youtube;
       if (isSafeUrl(s.facebook)) document.getElementById("fbLink").href = s.facebook;
       if (isSafeUrl(s.instagram)) document.getElementById("igLink").href = s.instagram;
+      if (isSafeUrl(s.whatsapp)) document.getElementById("waLink").href = s.whatsapp;
     }
 
     function getAllUnifiedItems() {
