@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="ur" dir="auto">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Panel - Islamiq Website</title>
+  <style>
+    :root {
+      --bg: #f3f6f4;
+      --card: #ffffff;
+      --primary: #0f5132;
+      --primary-dark: #093621;
+      --text: #1e293b;
+      --muted: #64748b;
+      --border: #dce5e0;
+      --danger: #b91c1c;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Nastaliq Urdu", "Noto Sans Devanagari", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    .topbar {
+      background: var(--primary-dark);
+      color: #fff;
+      padding: 12px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .topbar-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .topbar a,
+    .btn-lock {
+      color: #fff;
+      text-decoration: none;
+      background: rgba(255, 255, 255, 0.16);
+      border: none;
+      padding: 6px 12px;
+      border-radius: 7px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .container {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 16px;
+    }
+
+    .box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+    }
+
+    .box h2 {
+      font-size: 1.1rem;
+      color: var(--primary);
+      margin-bottom: 12px;
+    }
+
+    .field {
+      margin-bottom: 11px;
+    }
+
+    label {
+      display: block;
+      font-size: 0.88rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 0.95rem;
+      background: #fff;
+    }
+
+    textarea {
+      min-height: 90px;
+      resize: vertical;
+    }
+
+    .btn-save {
+      width: 100%;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      padding: 11px 14px;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn-save:hover {
+      background: var(--primary-dark);
+    }
+
+    .list-wrap {
+      margin-top: 14px;
+    }
+
+    .row-item {
+      border: 1px solid var(--border);
+      background: #fafcfb;
+      border-radius: 9px;
+      padding: 11px 12px;
+      margin-bottom: 9px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .meta {
+      font-size: 0.83rem;
+      color: var(--muted);
+    }
+
+    .btn-del {
+      background: var(--danger);
+      color: #fff;
+      border: none;
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .note {
+      font-size: 0.84rem;
+      color: var(--muted);
+      margin-top: 8px;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="topbar">
+    <strong>Admin Panel</strong>
+    <div class="topbar-actions">
+      <button type="button" class="btn-lock" id="lockBtn" style="display: none;">Lock</button>
+      <a href="index.html">Website Dekhein</a>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- PIN Lock Box -->
+    <section id="pinLockBox" class="box">
+      <h2>Admin PIN Unlock Karein</h2>
+      <form id="pinForm">
+        <div class="field">
+          <label for="adminPinInput">Secret PIN</label>
+          <input type="password" id="adminPinInput" placeholder="PIN daalein" required />
+        </div>
+        <button type="submit" class="btn-save">Admin Panel Kholein</button>
+      </form>
+    </section>
+
+    <!-- Main Admin Workspace -->
+    <div id="adminContent" style="display: none;">
+      <!-- 1. Logo, Intro & Social Media -->
+      <section class="box">
+        <h2>Logo, Intro &amp; Social Media Links</h2>
+        <form id="settingsForm">
+          <div class="field">
+            <label for="siteName">Website Ka Naam</label>
+            <input type="text" id="siteName" required />
+          </div>
+          <div class="field">
+            <label for="logoUrl">Logo Image URL (Optional)</label>
+            <input type="url" id="logoUrl" placeholder="https://example.com/logo.png" />
+          </div>
+          <div class="field">
+            <label for="introText">Website Intro (Taaruf)</label>
+            <textarea id="introText" required></textarea>
+          </div>
+          <div class="field">
+            <label for="ytUrl">YouTube Link</label>
+            <input type="url" id="ytUrl" required />
+          </div>
+          <div class="field">
+            <label for="fbUrl">Facebook Link</label>
+            <input type="url" id="fbUrl" required />
+          </div>
+          <div class="field">
+            <label for="igUrl">Instagram Link</label>
+            <input type="url" id="igUrl" required />
+          </div>
+          <button type="submit" class="btn-save">Settings Save Karein</button>
+        </form>
+      </section>
+
+      <!-- 2. Google Drive / Telegram Links -->
+      <section class="box">
+        <h2>Google Drive / Telegram Link Add Karein</h2>
+        <form id="linkForm">
+          <div class="field">
+            <label for="linkSource">Source</label>
+            <select id="linkSource">
+              <option value="Google Drive">Google Drive</option>
+              <option value="Telegram">Telegram</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="linkTitle">Kitab / File Title</label>
+            <input type="text" id="linkTitle" required />
+          </div>
+          <div class="field">
+            <label for="linkUrl">Google Drive ya Telegram URL</label>
+            <input type="url" id="linkUrl" placeholder="https://drive.google.com/... ya https://t.me/..." required />
+          </div>
+          <button type="submit" class="btn-save">Link Add Karein</button>
+        </form>
+        <div id="linksManage" class="list-wrap"></div>
+      </section>
+
+      <!-- 3. Mazmoon -->
+      <section class="box">
+        <h2>Mazmoon Add Karein</h2>
+        <form id="mazmoonForm">
+          <div class="field">
+            <label for="mazmoonTitle">Mazmoon Ka Title</label>
+            <input type="text" id="mazmoonTitle" required />
+          </div>
+          <div class="field">
+            <label for="mazmoonAuthor">Likhnay Wala (Optional)</label>
+            <input type="text" id="mazmoonAuthor" />
+          </div>
+          <div class="field">
+            <label for="mazmoonBody">Mazmoon Ka Matn</label>
+            <textarea id="mazmoonBody" required></textarea>
+          </div>
+          <button type="submit" class="btn-save">Mazmoon Add Karein</button>
+        </form>
+        <div id="mazmoonManage" class="list-wrap"></div>
+      </section>
+
+      <!-- 4. Fatwa -->
+      <section class="box">
+        <h2>Fatwa Add Karein</h2>
+        <form id="fatwaForm">
+          <div class="field">
+            <label for="fatwaTopic">Topic / Bab</label>
+            <input type="text" id="fatwaTopic" placeholder="Maslan: Namaz, Zakat, Nikah" required />
+          </div>
+          <div class="field">
+            <label for="fatwaQuestion">Sawal</label>
+            <textarea id="fatwaQuestion" required></textarea>
+          </div>
+          <div class="field">
+            <label for="fatwaAnswer">Jawab / Fatwa</label>
+            <textarea id="fatwaAnswer" required></textarea>
+          </div>
+          <button type="submit" class="btn-save">Fatwa Add Karein</button>
+        </form>
+        <div id="fatwaManage" class="list-wrap"></div>
+        <p class="note" id="syncStatusNote">
+          Note: Yeh panel Firebase Firestore (`website_data/main`) ke saath sync hota hai aur local cache (`islamic_site_data_v1`) bhi rakhta hai.
+        </p>
+      </section>
+    </div>
+  </main>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/13.4.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/13.4.0/firebase-analytics.js";
+    import {
+      getFirestore,
+      doc,
+      getDoc,
+      setDoc
+    } from "https://www.gstatic.com/firebasejs/13.4.0/firebase-firestore.js";
+
+    const ADMIN_PIN = "2026";
+    const UNLOCK_KEY = "islamic_admin_unlocked_v1";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBVp3e6RFYqiIAgyR0q7BUHqulfRhA6kvg",
+      authDomain: "allama-danish-hanfi.firebaseapp.com",
+      projectId: "allama-danish-hanfi",
+      storageBucket: "allama-danish-hanfi.firebasestorage.app",
+      messagingSenderId: "73684319866",
+      appId: "1:73684319866:web:7ed6125f1233baaa8945c3",
+      measurementId: "G-EZYM0G7118"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    if (typeof window !== "undefined") {
+      getAnalytics(app);
+    }
+    const db = getFirestore(app);
+    const siteDocRef = doc(db, "website_data", "main");
+
+    const STORAGE_KEY = "islamic_site_data_v1";
+
+    const defaultData = {
+      settings: {
+        siteName: "Islamiq Kitab Ghar & Darul Ifta",
+        logoUrl: "",
+        intro: "Is website par aap motabar kitaabon ke links, ilmi mazameen aur zaroori fatawa aasani se padh aur dekh sakte hain.",
+        youtube: "https://youtube.com",
+        facebook: "https://facebook.com",
+        instagram: "https://instagram.com"
+      },
+      links: [],
+      mazmoon: [],
+      fatawa: []
+    };
+
+    function normalizeData(rawObj) {
+      const p = rawObj && typeof rawObj === "object" ? rawObj : {};
+      return {
+        settings: { ...defaultData.settings, ...(p.settings || {}) },
+        links: Array.isArray(p.links) ? p.links : [],
+        mazmoon: Array.isArray(p.mazmoon) ? p.mazmoon : [],
+        fatawa: Array.isArray(p.fatawa) ? p.fatawa : []
+      };
+    }
+
+    let state = normalizeData(defaultData);
+
+    function syncLockView() {
+      const unlocked = sessionStorage.getItem(UNLOCK_KEY) === "1";
+      document.getElementById("pinLockBox").style.display = unlocked ? "none" : "block";
+      document.getElementById("adminContent").style.display = unlocked ? "block" : "none";
+      document.getElementById("lockBtn").style.display = unlocked ? "inline-block" : "none";
+    }
+
+    document.getElementById("pinForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const entered = document.getElementById("adminPinInput").value.trim();
+      if (entered === ADMIN_PIN) {
+        sessionStorage.setItem(UNLOCK_KEY, "1");
+        e.target.reset();
+        syncLockView();
+      } else {
+        alert("Galat PIN hai.");
+      }
+    });
+
+    document.getElementById("lockBtn").addEventListener("click", () => {
+      sessionStorage.removeItem(UNLOCK_KEY);
+      syncLockView();
+    });
+
+    async function loadData() {
+      try {
+        const snap = await getDoc(siteDocRef);
+        if (snap.exists()) {
+          state = normalizeData(snap.data());
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+          document.getElementById("syncStatusNote").textContent =
+            "Status: Firebase Firestore se connected (`website_data/main`).";
+          return;
+        }
+      } catch (err) {
+        console.error("Firestore load error:", err);
+      }
+
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) {
+          state = normalizeData(JSON.parse(raw));
+        }
+      } catch {
+        state = normalizeData(defaultData);
+      }
+      document.getElementById("syncStatusNote").textContent =
+        "Status: Local cache load hua hai; save karte hi Firestore par sync hoga.";
+    }
+
+    async function saveData() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      await setDoc(siteDocRef, {
+        ...state,
+        updatedAt: new Date().toISOString()
+      });
+      document.getElementById("syncStatusNote").textContent =
+        "Status: Firebase Firestore (`website_data/main`) par live save ho gaya hai.";
+    }
+
+    function isSafeUrl(url) {
+      try {
+        const parsed = new URL(url);
+        return parsed.protocol === "https:" || parsed.protocol === "http:";
+      } catch {
+        return false;
+      }
+    }
+
+    function esc(str) {
+      return String(str || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
+    function fillSettingsForm() {
+      const s = state.settings;
+      document.getElementById("siteName").value = s.siteName;
+      document.getElementById("logoUrl").value = s.logoUrl;
+      document.getElementById("introText").value = s.intro;
+      document.getElementById("ytUrl").value = s.youtube;
+      document.getElementById("fbUrl").value = s.facebook;
+      document.getElementById("igUrl").value = s.instagram;
+    }
+
+    function renderManageLists() {
+      const linksEl = document.getElementById("linksManage");
+      const mazmoonEl = document.getElementById("mazmoonManage");
+      const fatwaEl = document.getElementById("fatwaManage");
+
+      linksEl.innerHTML = state.links.length
+        ? state.links.map((item) => `
+            <div class="row-item">
+              <div>
+                <strong>${esc(item.title)}</strong>
+                <div class="meta">${esc(item.source)}</div>
+              </div>
+              <button type="button" class="btn-del" data-col="links" data-id="${esc(item.id)}">Delete</button>
+            </div>
+          `).join("")
+        : `<div class="meta">Koi link add nahi hai.</div>`;
+
+      mazmoonEl.innerHTML = state.mazmoon.length
+        ? state.mazmoon.map((item) => `
+            <div class="row-item">
+              <div>
+                <strong>${esc(item.title)}</strong>
+                ${item.author ? `<div class="meta">Az: ${esc(item.author)}</div>` : ""}
+              </div>
+              <button type="button" class="btn-del" data-col="mazmoon" data-id="${esc(item.id)}">Delete</button>
+            </div>
+          `).join("")
+        : `<div class="meta">Koi mazmoon add nahi hai.</div>`;
+
+      fatwaEl.innerHTML = state.fatawa.length
+        ? state.fatawa.map((item) => `
+            <div class="row-item">
+              <div>
+                <strong>${esc(item.question)}</strong>
+                <div class="meta">Topic: ${esc(item.topic)}</div>
+              </div>
+              <button type="button" class="btn-del" data-col="fatawa" data-id="${esc(item.id)}">Delete</button>
+            </div>
+          `).join("")
+        : `<div class="meta">Koi fatwa add nahi hai.</div>`;
+    }
+
+    document.addEventListener("click", async (e) => {
+      const delBtn = e.target.closest(".btn-del");
+      if (!delBtn) return;
+      if (sessionStorage.getItem(UNLOCK_KEY) !== "1") return;
+      if (!confirm("Kya aap waqai is item ko delete karna chahte hain?")) return;
+
+      const collection = delBtn.dataset.col;
+      const id = delBtn.dataset.id;
+      state[collection] = state[collection].filter((item) => item.id !== id);
+      try {
+        await saveData();
+        renderManageLists();
+      } catch (err) {
+        console.error(err);
+        alert("Delete karte waqt Firestore error aaya.");
+      }
+    });
+
+    document.getElementById("settingsForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      state.settings = {
+        siteName: document.getElementById("siteName").value.trim(),
+        logoUrl: document.getElementById("logoUrl").value.trim(),
+        intro: document.getElementById("introText").value.trim(),
+        youtube: document.getElementById("ytUrl").value.trim(),
+        facebook: document.getElementById("fbUrl").value.trim(),
+        instagram: document.getElementById("igUrl").value.trim()
+      };
+      try {
+        await saveData();
+        alert("Settings save ho gayi hain.");
+      } catch (err) {
+        console.error(err);
+        alert("Save karte waqt Firestore error aaya.");
+      }
+    });
+
+    document.getElementById("linkForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const url = document.getElementById("linkUrl").value.trim();
+      if (!isSafeUrl(url)) {
+        alert("Valid http:// ya https:// link daalein.");
+        return;
+      }
+      state.links.unshift({
+        id: "lnk_" + Date.now(),
+        source: document.getElementById("linkSource").value,
+        title: document.getElementById("linkTitle").value.trim(),
+        url
+      });
+      try {
+        await saveData();
+        e.target.reset();
+        renderManageLists();
+        alert("Link add ho gaya hai.");
+      } catch (err) {
+        console.error(err);
+        alert("Add karte waqt Firestore error aaya.");
+      }
+    });
+
+    document.getElementById("mazmoonForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      state.mazmoon.unshift({
+        id: "mzm_" + Date.now(),
+        title: document.getElementById("mazmoonTitle").value.trim(),
+        author: document.getElementById("mazmoonAuthor").value.trim(),
+        body: document.getElementById("mazmoonBody").value.trim()
+      });
+      try {
+        await saveData();
+        e.target.reset();
+        renderManageLists();
+        alert("Mazmoon add ho gaya hai.");
+      } catch (err) {
+        console.error(err);
+        alert("Add karte waqt Firestore error aaya.");
+      }
+    });
+
+    document.getElementById("fatwaForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      state.fatawa.unshift({
+        id: "ftw_" + Date.now(),
+        topic: document.getElementById("fatwaTopic").value.trim(),
+        question: document.getElementById("fatwaQuestion").value.trim(),
+        answer: document.getElementById("fatwaAnswer").value.trim()
+      });
+      try {
+        await saveData();
+        e.target.reset();
+        renderManageLists();
+        alert("Fatwa add ho gaya hai.");
+      } catch (err) {
+        console.error(err);
+        alert("Add karte waqt Firestore error aaya.");
+      }
+    });
+
+    (async () => {
+      syncLockView();
+      await loadData();
+      fillSettingsForm();
+      renderManageLists();
+    })();
+  </script>
+</body>
+</html>
